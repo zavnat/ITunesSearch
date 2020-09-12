@@ -12,6 +12,9 @@
 		8410EA5C250BC9290013C366 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA5B250BC9290013C366 /* ViewModel.swift */; };
 		8410EA5E250BC9670013C366 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA5D250BC9670013C366 /* Repository.swift */; };
 		8410EA60250BF23A0013C366 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA5F250BF23A0013C366 /* Model.swift */; };
+		8410EA62250D567E0013C366 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA61250D567E0013C366 /* DetailViewController.swift */; };
+		8410EA64250D5C440013C366 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA63250D5C440013C366 /* DetailViewModel.swift */; };
+		8410EA66250D5F800013C366 /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA65250D5F800013C366 /* DetailModel.swift */; };
 		847E1B3B250BC14800E35801 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E1B3A250BC14800E35801 /* AppDelegate.swift */; };
 		847E1B3D250BC14800E35801 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E1B3C250BC14800E35801 /* SceneDelegate.swift */; };
 		847E1B3F250BC14800E35801 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E1B3E250BC14800E35801 /* ViewController.swift */; };
@@ -26,6 +29,9 @@
 		8410EA5B250BC9290013C366 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		8410EA5D250BC9670013C366 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		8410EA5F250BF23A0013C366 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		8410EA61250D567E0013C366 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		8410EA63250D5C440013C366 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		8410EA65250D5F800013C366 /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		847E1B37250BC14800E35801 /* ITunesSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ITunesSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847E1B3A250BC14800E35801 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		847E1B3C250BC14800E35801 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				847E1B3E250BC14800E35801 /* ViewController.swift */,
+				8410EA61250D567E0013C366 /* DetailViewController.swift */,
 				8410EA59250BC7E10013C366 /* CollectionCell.swift */,
 			);
 			path = View;
@@ -63,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				8410EA5B250BC9290013C366 /* ViewModel.swift */,
+				8410EA63250D5C440013C366 /* DetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -72,6 +80,7 @@
 			children = (
 				8410EA5D250BC9670013C366 /* Repository.swift */,
 				8410EA5F250BF23A0013C366 /* Model.swift */,
+				8410EA65250D5F800013C366 /* DetailModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -246,9 +255,12 @@
 				8410EA5C250BC9290013C366 /* ViewModel.swift in Sources */,
 				847E1B3F250BC14800E35801 /* ViewController.swift in Sources */,
 				847E1B3B250BC14800E35801 /* AppDelegate.swift in Sources */,
+				8410EA64250D5C440013C366 /* DetailViewModel.swift in Sources */,
 				847E1B3D250BC14800E35801 /* SceneDelegate.swift in Sources */,
+				8410EA66250D5F800013C366 /* DetailModel.swift in Sources */,
 				8410EA5A250BC7E10013C366 /* CollectionCell.swift in Sources */,
 				8410EA5E250BC9670013C366 /* Repository.swift in Sources */,
+				8410EA62250D567E0013C366 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

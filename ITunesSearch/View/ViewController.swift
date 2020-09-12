@@ -33,6 +33,14 @@ class ViewController: UIViewController, UICollectionViewDelegate {
       print(self.dataToUI[0].title)
     }
   }
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "goToDetail"{
+      let destinationVC = segue.destination as? DetailViewController
+      if let indexPath = collectionView.indexPathsForSelectedItems?.first {
+        destinationVC?.id = dataToUI[indexPath.row].id
+      }
+    }
+  }
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -44,7 +52,6 @@ extension ViewController: UICollectionViewDataSource {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionCell
     cell.cellLabel.text = dataToUI[indexPath.row].title
     cell.cellImage.kf.setImage(with: dataToUI[indexPath.row].image)
-//    cell.cellImage = dataToUI[indexPath.row].title
     return cell
   }
 }
@@ -55,9 +62,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let height = collectionView.frame.height / 3
     let width  = collectionView.frame.width / 2 - 10
-//    let width  = collectionView.bounds.width - 20
     return CGSize(width: width, height: height)
-
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

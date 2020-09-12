@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class ViewModel {
   
   let repository = Repository()
@@ -19,12 +18,12 @@ class ViewModel {
     }
   }
   
-  
   func request(with text: String) {
     repository.request(text){ [weak self] items in
       guard let self = self else { return }
       let itemArray = items.results
-      let result = itemArray.map { UIModel(item: $0) }
+      var result = itemArray.map { UIModel(item: $0) }
+      result.sort { $0.title < $1.title }
       self.dataToUI = result
     }
   }
