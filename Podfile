@@ -1,5 +1,5 @@
 
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 target 'ITunesSearch' do
  
@@ -7,6 +7,7 @@ target 'ITunesSearch' do
 
  # Pods for MyNotes
 
- pod 'Alamofire'
+pod 'Alamofire'
+pod 'Kingfisher', '~> 5.0'
 
 end
