@@ -13,6 +13,8 @@ class ViewController: UIViewController, UICollectionViewDelegate {
   
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var search: UISearchBar!
+  @IBOutlet weak var commentLabel: UILabel!
+  @IBOutlet weak var tableView: UITableView!
   
   let model = ViewModel()
   var dataToUI = [UIModel]()
@@ -25,14 +27,30 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     setupViewModel()
   }
   
+  
   private func setupViewModel() {
     model.didUpdateDataToUI = { [weak self] data in
       guard let self = self else { return }
       self.dataToUI = data
-      self.collectionView.reloadData()
-      print(self.dataToUI[0].title)
+      
+      DispatchQueue.main.async {
+        self.collectionView.reloadData()
+      }
+      self.checkComment()
     }
   }
+  
+  
+  private func checkComment() {
+    if self.model.comment != nil {
+      self.commentLabel.isHidden = false
+      self.commentLabel.text = self.model.comment
+    } else {
+      self.commentLabel.isHidden = true
+    }
+  }
+  
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "goToDetail"{
       let destinationVC = segue.destination as? DetailViewController
@@ -43,10 +61,14 @@ class ViewController: UIViewController, UICollectionViewDelegate {
   }
 }
 
+
+//MARK: - UICollectionViewDataSource Method
 extension ViewController: UICollectionViewDataSource {
+  
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return dataToUI.count
   }
+  
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionCell
@@ -56,6 +78,7 @@ extension ViewController: UICollectionViewDataSource {
   }
 }
 
+
 //MARK: - CollectionViewDelegateFlowLayout Methods
 extension ViewController: UICollectionViewDelegateFlowLayout {
 
@@ -64,6 +87,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     let width  = collectionView.frame.width / 2 - 10
     return CGSize(width: width, height: height)
   }
+  
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
     return 2.5
@@ -75,13 +99,28 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
+
+//MARK: UISearchBarDelegate Methods
 extension ViewController: UISearchBarDelegate {
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     if let text = searchBar.text {
-      print(text)
       model.request(with: text)
     }
+    checkComment()
     searchBar.resignFirstResponder()
   }
+  
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchBar.text?.count == 0 {
+      dataToUI = []
+      
+      DispatchQueue.main.async {
+        searchBar.resignFirstResponder()
+        self.collectionView.reloadData()
+      }
+    }
+  }
+  
 }

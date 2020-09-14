@@ -15,6 +15,7 @@ struct DetailItems: Codable {
   let results: [Detail]
 }
 
+
 // MARK: - Detail
 struct Detail: Codable {
   let wrapperType: WrapperType

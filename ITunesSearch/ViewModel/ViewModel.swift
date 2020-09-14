@@ -18,13 +18,20 @@ class ViewModel {
     }
   }
   
+  var comment: String?
+  
   func request(with text: String) {
-    repository.request(text){ [weak self] items in
+    repository.request(text){ [weak self] (items, text) in
       guard let self = self else { return }
-      let itemArray = items.results
-      var result = itemArray.map { UIModel(item: $0) }
-      result.sort { $0.title < $1.title }
-      self.dataToUI = result
+      if let resultData = items {
+        self.comment = text
+        let itemArray = resultData.results
+        var result = itemArray.map { UIModel(item: $0) }
+        result.sort { $0.title < $1.title }
+        self.dataToUI = result
+      } else {
+        self.comment = text
+      }
     }
   }
 }
