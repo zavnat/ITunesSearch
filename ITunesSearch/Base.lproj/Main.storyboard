@@ -216,6 +216,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="playButton" destination="U4I-fX-1HY" id="AUx-C2-Vbq"/>
                                             <outlet property="songName" destination="xbB-Og-XaO" id="TOo-Zt-t3l"/>
                                         </connections>
                                     </tableViewCell>

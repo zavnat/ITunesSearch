@@ -23,7 +23,7 @@ class DetailViewController: UIViewController {
   var data: DetailUIModel?
   var id: Int?
   var isSongPlaying = false
-  var player: AVPlayer? = nil
+  var player = AVPlayer()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -84,17 +84,46 @@ extension DetailViewController: UITableViewDataSource {
       let cell = tableView.dequeueReusableCell(withIdentifier: "song", for: indexPath) as! DetailSongCell
       cell.cellDelegate = self
       cell.songName.text = data?.songsList[indexPath.row].name
+      if !isSongPlaying {
+        cell.playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+      } else {
+        cell.playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+      }
       return cell
     }
   }
 }
 
 
+//MARK: - SongCellDelegate Methods
 extension DetailViewController: SongCellDelegate {
   
   func buttonPressed(cell: UITableViewCell) {
-   
-
+    guard let indexPath = tableView.indexPath(for: cell) else {return}
+    
+    if isSongPlaying {
+      stopSound()
+    } else {
+      guard let item = data?.songsList[indexPath.row].song else {return}
+      playSound(item)
+    }
+    tableView.reloadRows(at: [indexPath], with: .none)
+  }
+  
+  
+  func playSound(_ string: String){
+    player.pause()
+    let url  = URL(string: string)
+    let playerItem: AVPlayerItem = AVPlayerItem(url: url!)
+    player = AVPlayer(playerItem: playerItem)
+    player.play()
+    isSongPlaying = true
+  }
+  
+  
+  func stopSound() {
+    player.pause()
+    isSongPlaying = false
   }
   
 }
