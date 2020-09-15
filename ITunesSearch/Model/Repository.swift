@@ -33,6 +33,7 @@ class Repository {
           let decoder = JSONDecoder()
           do {
             let results = try decoder.decode(Items.self, from: data)
+            print(results.resultCount)
             if results.results.isEmpty {
               comment = "Ничего не найдено"
             }

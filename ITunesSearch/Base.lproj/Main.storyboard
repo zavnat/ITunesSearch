@@ -186,16 +186,31 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="45.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U4I-fX-1HY">
+                                                    <rect key="frame" x="20" y="12" width="22" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="22" id="Kwn-EO-Q74"/>
+                                                        <constraint firstAttribute="width" secondItem="U4I-fX-1HY" secondAttribute="height" multiplier="1:1" id="MzI-PF-c18"/>
+                                                    </constraints>
+                                                    <state key="normal" image="play.fill" catalog="system">
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="13"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="playButtonPressed:" destination="fxy-uI-NpJ" eventType="touchUpInside" id="njI-a9-F1W"/>
+                                                    </connections>
+                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xbB-Og-XaO">
-                                                    <rect key="frame" x="40" y="13" width="334" height="19.5"/>
+                                                    <rect key="frame" x="62" y="13" width="312" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="xbB-Og-XaO" firstAttribute="leading" secondItem="U4I-fX-1HY" secondAttribute="trailing" constant="20" id="6dP-SV-rz3"/>
                                                 <constraint firstItem="xbB-Og-XaO" firstAttribute="top" secondItem="1aJ-Ml-IQn" secondAttribute="topMargin" constant="2" id="ISv-dQ-bmD"/>
-                                                <constraint firstItem="xbB-Og-XaO" firstAttribute="leading" secondItem="1aJ-Ml-IQn" secondAttribute="leadingMargin" constant="20" id="cSE-9S-9VI"/>
+                                                <constraint firstItem="U4I-fX-1HY" firstAttribute="centerY" secondItem="1aJ-Ml-IQn" secondAttribute="centerY" id="Oei-xY-C56"/>
+                                                <constraint firstItem="U4I-fX-1HY" firstAttribute="leading" secondItem="1aJ-Ml-IQn" secondAttribute="leading" constant="20" id="Tk5-zc-IaS"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="xbB-Og-XaO" secondAttribute="trailing" constant="20" id="fdc-jg-Pf5"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="xbB-Og-XaO" secondAttribute="bottom" constant="2" id="pWO-Iy-GdK"/>
                                             </constraints>
@@ -259,4 +274,7 @@
             <point key="canvasLocation" x="137.68115942028987" y="116.51785714285714"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="play.fill" catalog="system" width="116" height="128"/>
+    </resources>
 </document>

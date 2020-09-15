@@ -8,9 +8,10 @@
 
 import UIKit
 import Kingfisher
+import MediaPlayer
 
 class DetailViewController: UIViewController {
-  
+
   @IBOutlet weak var image: UIImageView!
   @IBOutlet weak var label: UILabel!
   @IBOutlet weak var artistLabel: UILabel!
@@ -21,7 +22,8 @@ class DetailViewController: UIViewController {
   let model = DetailViewModel()
   var data: DetailUIModel?
   var id: Int?
-  
+  var isSongPlaying = false
+  var player: AVPlayer? = nil
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -80,8 +82,19 @@ extension DetailViewController: UITableViewDataSource {
       return cell
     } else {
       let cell = tableView.dequeueReusableCell(withIdentifier: "song", for: indexPath) as! DetailSongCell
+      cell.cellDelegate = self
       cell.songName.text = data?.songsList[indexPath.row].name
       return cell
     }
   }
+}
+
+
+extension DetailViewController: SongCellDelegate {
+  
+  func buttonPressed(cell: UITableViewCell) {
+   
+
+  }
+  
 }

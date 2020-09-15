@@ -71,6 +71,7 @@ struct DetailUIModel {
 
 struct Song {
   var name: String
+  var song: String
 }
 
 extension DetailUIModel {
@@ -85,7 +86,9 @@ extension DetailUIModel {
     var songArray = [Song]()
     for song in 1...itemArray.count - 1 {
       if let text = itemArray[song].trackName {
-        songArray.append(Song(name: text))
+        if let song = itemArray[song].previewURL {
+          songArray.append(Song(name: text, song: song))
+        }
       }
     }
     self.songsList = songArray
