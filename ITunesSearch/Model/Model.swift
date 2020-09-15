@@ -51,3 +51,18 @@ enum WrapperType: String, Codable {
   case track = "track"
 }
 
+
+// MARK: UIModel
+struct UIModel {
+  let id: Int
+  let title: String
+  let image: URL?
+}
+
+extension UIModel {
+  init(item: Result) {
+    self.id = item.collectionID
+    self.title = item.collectionName
+    self.image = URL(string: item.artworkUrl100)
+  }
+}

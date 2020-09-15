@@ -11,6 +11,7 @@ import Foundation
 class ViewModel {
   
   let repository = Repository()
+  var comment: String?
   var didUpdateDataToUI: (([UIModel]) -> Void)?
   private(set) var dataToUI: [UIModel]? {
     didSet {
@@ -18,7 +19,6 @@ class ViewModel {
     }
   }
   
-  var comment: String?
   
   func request(with text: String) {
     repository.request(text){ [weak self] (items, text) in
@@ -34,20 +34,5 @@ class ViewModel {
       }
     }
   }
+  
 }
-
-// MARK: UIModel
-struct UIModel {
-  let id: Int
-  let title: String
-  let image: URL?
-}
-
-extension UIModel {
-  init(item: Result) {
-    self.id = item.collectionID
-    self.title = item.collectionName
-    self.image = URL(string: item.artworkUrl100)
-  }
-}
-

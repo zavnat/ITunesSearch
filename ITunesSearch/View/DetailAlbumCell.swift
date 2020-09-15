@@ -10,11 +10,7 @@ import UIKit
 
 class DetailAlbumCell: UITableViewCell {
   
-  
   @IBOutlet weak var albumName: UILabel!
   @IBOutlet weak var artistName: UILabel!
   @IBOutlet weak var albumImage: UIImageView!
-  
-   
-  
 }

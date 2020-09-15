@@ -14,29 +14,67 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var image: UIImageView!
   @IBOutlet weak var label: UILabel!
   @IBOutlet weak var artistLabel: UILabel!
+  @IBOutlet weak var tableView: UITableView!
+  
   let model = DetailViewModel()
+  var data: DetailUIModel?
   var id: Int?
-  var data = [DetailUIModel]()
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    tableView.dataSource = self
     if let detailID = id {
       model.fetchData(with: detailID)
     }
     setupViewModel()
   }
-  deinit {
-    print("deinit")
-  }
+  
   
   private func setupViewModel() {
     model.didUpdateDataToUI = { [weak self] data in
       guard let self = self else { return }
       self.data = data
-      self.label.text = data[0].title
-      self.artistLabel.text = data[0].artistName
-      self.image.kf.setImage(with: data[0].image)
+      self.tableView.reloadData()
     }
   }
   
+}
+
+
+//MARK: - UITableViewDataSource Methods
+extension DetailViewController: UITableViewDataSource {
+  
+  func numberOfSections(in tableView: UITableView) -> Int {
+    return 2
+  }
+  
+  
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if section == 0 {
+      return 1
+    } else if section == 1 {
+      if let count = data?.songsList.count {
+        return count
+      } else {
+        return 0
+      }
+    }
+    return 0
+  }
+  
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if indexPath.section == 0 {
+      let cell = tableView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! DetailAlbumCell
+      cell.albumImage.kf.setImage(with: data?.image)
+      cell.artistName.text = data?.artistName
+      cell.albumName.text = data?.albumName
+      return cell
+    } else {
+      let cell = tableView.dequeueReusableCell(withIdentifier: "song", for: indexPath) as! DetailSongCell
+      cell.songName.text = data?.songsList[indexPath.row].name
+      return cell
+    }
+  }
 }

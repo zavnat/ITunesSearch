@@ -60,3 +60,35 @@ struct Detail: Codable {
 }
 
 
+// MARK: DetailUIModel
+struct DetailUIModel {
+  let title: String
+  let artistName: String
+  let albumName: String
+  var image: URL? = nil
+  var songsList: [Song]
+}
+
+struct Song {
+  var name: String
+}
+
+extension DetailUIModel {
+  init(_ items: DetailItems) {
+    let itemArray = items.results
+    self.title = itemArray[0].collectionName ?? ""
+    self.albumName = itemArray[0].collectionName ?? ""
+    self.artistName = itemArray[0].artistName ?? ""
+    if let url = itemArray[0].artworkUrl100 {
+      self.image = URL(string: url)
+    }
+    var songArray = [Song]()
+    for song in 1...itemArray.count - 1 {
+      if let text = itemArray[song].trackName {
+        songArray.append(Song(name: text))
+      }
+    }
+    self.songsList = songArray
+    
+  }
+}

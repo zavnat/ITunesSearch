@@ -14,7 +14,6 @@ class ViewController: UIViewController, UICollectionViewDelegate {
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var search: UISearchBar!
   @IBOutlet weak var commentLabel: UILabel!
-  @IBOutlet weak var tableView: UITableView!
   
   let model = ViewModel()
   var dataToUI = [UIModel]()
@@ -115,7 +114,7 @@ extension ViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text?.count == 0 {
       dataToUI = []
-      
+      commentLabel.isHidden = true
       DispatchQueue.main.async {
         searchBar.resignFirstResponder()
         self.collectionView.reloadData()
