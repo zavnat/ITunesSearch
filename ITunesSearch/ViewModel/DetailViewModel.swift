@@ -14,16 +14,18 @@ class DetailViewModel {
   var didUpdateDataToUI: ((DetailUIModel) -> Void)?
   private(set) var dataToUI: DetailUIModel? {
     didSet {
+      if dataToUI != nil {
       didUpdateDataToUI?(dataToUI!)
+      }
     }
   }
   
   
   func fetchData(with id: Int) {
-    repository.requestDetail(id){ [weak self] items in
+    repository.requestDetail(id){ [weak self] (items) in
       guard let self = self else { return }
-      let result = DetailUIModel(items)
-      self.dataToUI = result
+        let result = DetailUIModel(items)
+        self.dataToUI = result
     }
   }
   

@@ -15,6 +15,8 @@ class DetailViewController: UIViewController {
   @IBOutlet weak var label: UILabel!
   @IBOutlet weak var artistLabel: UILabel!
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var spinner: UIActivityIndicatorView!
+  @IBOutlet weak var commentLabel: UILabel!
   
   let model = DetailViewModel()
   var data: DetailUIModel?
@@ -25,6 +27,7 @@ class DetailViewController: UIViewController {
     super.viewDidLoad()
     tableView.dataSource = self
     if let detailID = id {
+      spinner.startAnimating()
       model.fetchData(with: detailID)
     }
     setupViewModel()
@@ -35,7 +38,11 @@ class DetailViewController: UIViewController {
     model.didUpdateDataToUI = { [weak self] data in
       guard let self = self else { return }
       self.data = data
-      self.tableView.reloadData()
+      print("setupViewModel")
+      DispatchQueue.main.async {
+        self.spinner.stopAnimating()
+        self.tableView.reloadData()
+      }
     }
   }
   

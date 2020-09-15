@@ -14,6 +14,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var search: UISearchBar!
   @IBOutlet weak var commentLabel: UILabel!
+  @IBOutlet weak var spinner: UIActivityIndicatorView!
   
   let model = ViewModel()
   var dataToUI = [UIModel]()
@@ -24,6 +25,18 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     collectionView.delegate = self
     search.delegate = self
     setupViewModel()
+    commentLabel.text = "Введите исполнителя для поиска"
+  }
+  
+  
+  override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      navigationController?.setNavigationBarHidden(true, animated: animated)
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+      super.viewWillDisappear(animated)
+      navigationController?.setNavigationBarHidden(false, animated: animated)
   }
   
   
@@ -33,6 +46,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
       self.dataToUI = data
       
       DispatchQueue.main.async {
+        self.spinner.stopAnimating()
         self.collectionView.reloadData()
       }
       self.checkComment()
@@ -105,6 +119,7 @@ extension ViewController: UISearchBarDelegate {
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     if let text = searchBar.text {
       model.request(with: text)
+      spinner.startAnimating()
     }
     checkComment()
     searchBar.resignFirstResponder()
@@ -114,7 +129,8 @@ extension ViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchBar.text?.count == 0 {
       dataToUI = []
-      commentLabel.isHidden = true
+      commentLabel.isHidden = false
+      commentLabel.text = "Введите исполнителя для поиска"
       DispatchQueue.main.async {
         searchBar.resignFirstResponder()
         self.collectionView.reloadData()

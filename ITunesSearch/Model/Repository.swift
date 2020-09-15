@@ -44,7 +44,7 @@ class Repository {
         }
       }
     } else {
-      comment = "no internet"
+      comment = "Нет подключения к интернету"
       completion(nil, comment)
     }
   }
@@ -60,14 +60,14 @@ class Repository {
     ]
     
     
-    Alamofire.request(detailURL, method: .get, parameters: parameters).response { (response) in
-      guard let data = response.data else { return }
-      let decoder = JSONDecoder()
-      do {
-        let results = try decoder.decode(DetailItems.self, from: data)
-        completion(results)
-      } catch {
-        print("Error fetch data")
+      Alamofire.request(detailURL, method: .get, parameters: parameters).response { (response) in
+        guard let data = response.data else { return }
+        let decoder = JSONDecoder()
+        do {
+          let results = try decoder.decode(DetailItems.self, from: data)
+          completion(results)
+        } catch {
+          print("Error fetch data")
       }
     }
   }
