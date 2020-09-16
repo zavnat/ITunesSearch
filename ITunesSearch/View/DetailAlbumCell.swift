@@ -13,4 +13,6 @@ class DetailAlbumCell: UITableViewCell {
   @IBOutlet weak var albumName: UILabel!
   @IBOutlet weak var artistName: UILabel!
   @IBOutlet weak var albumImage: UIImageView!
+  @IBOutlet weak var musicType: UILabel!
+  @IBOutlet weak var date: UILabel!
 }

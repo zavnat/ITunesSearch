@@ -28,11 +28,16 @@ class DetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.dataSource = self
+    tableView.delegate = self
     if let detailID = id {
       spinner.startAnimating()
       model.fetchData(with: detailID)
     }
     setupViewModel()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    player.pause()
   }
   
   
@@ -79,10 +84,11 @@ extension DetailViewController: UITableViewDataSource {
       cell.albumImage.kf.setImage(with: data?.image)
       cell.artistName.text = data?.artistName
       cell.albumName.text = data?.albumName
+      cell.musicType.text = data?.musicType
+      cell.date.text = data?.date
       return cell
     } else {
       let cell = tableView.dequeueReusableCell(withIdentifier: "song", for: indexPath) as! DetailSongCell
-      cell.cellDelegate = self
       cell.songName.text = data?.songsList[indexPath.row].name
       if let item = data {
         if !item.songsList[indexPath.row].isSongPlaying {
@@ -91,17 +97,15 @@ extension DetailViewController: UITableViewDataSource {
           cell.playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
         }
       }
+      
       return cell
     }
   }
 }
 
 
-//MARK: - SongCellDelegate Methods
-extension DetailViewController: SongCellDelegate {
-  
-  func buttonPressed(cell: UITableViewCell) {
-    guard let indexPath = tableView.indexPath(for: cell) else {return}
+extension DetailViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     guard let item = data?.songsList[indexPath.row].song else {return}
     
     if  indexPath == playingMusic {
@@ -126,8 +130,41 @@ extension DetailViewController: SongCellDelegate {
       playingMusic = indexPath
       tableView.reloadRows(at: [indexPath], with: .none)
       tableView.reloadData()
-    }
   }
+}
+
+
+//MARK: - SongCellDelegate Methods
+//extension DetailViewController: SongCellDelegate {
+//  
+//  func buttonPressed(cell: UITableViewCell) {
+//    guard let indexPath = tableView.indexPath(for: cell) else {return}
+//    guard let item = data?.songsList[indexPath.row].song else {return}
+//
+//    if  indexPath == playingMusic {
+//      stopSound()
+//      data?.songsList[indexPath.row].isSongPlaying = false
+//      tableView.reloadRows(at: [indexPath], with: .none)
+//      playingMusic = nil
+//    } else if indexPath != playingMusic && playingMusic != nil {
+//      stopSound()
+//      if let music = playingMusic {
+//        data?.songsList[music.row].isSongPlaying = false
+//        data?.songsList[indexPath.row].isSongPlaying = true
+//        playSound(item, indexPath)
+//        playingMusic = indexPath
+//        tableView.reloadData()
+//      } else {
+//        print("not music")
+//      }
+//    } else {
+//      playSound(item, indexPath)
+//      data?.songsList[indexPath.row].isSongPlaying = true
+//      playingMusic = indexPath
+//      tableView.reloadRows(at: [indexPath], with: .none)
+//      tableView.reloadData()
+//    }
+//  }
   
   
   func playSound(_ string: String, _ indexPath: IndexPath){

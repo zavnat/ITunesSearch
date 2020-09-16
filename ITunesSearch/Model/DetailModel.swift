@@ -30,7 +30,7 @@ struct Detail: Codable {
   let copyright: String?
   let country: String?
   let currency: String?
-  let releaseDate: String?
+  let releaseDate: String
   let primaryGenreName: String?
   let kind: String?
   let trackID: Int?
@@ -67,6 +67,8 @@ struct DetailUIModel {
   let albumName: String
   var image: URL? = nil
   var songsList: [Song]
+  var musicType: String?
+  var date: String
 }
 
 struct Song {
@@ -93,6 +95,18 @@ extension DetailUIModel {
       }
     }
     self.songsList = songArray
+    self.musicType = itemArray[0].primaryGenreName
+    
+    let string = itemArray[0].releaseDate
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+    if let date = formatter.date(from: string) {
+      formatter.dateFormat = "yyyy"
+      let result = formatter.string(from: date)
+      self.date = result
+    } else {
+      self.date = ""
+    }
     
   }
 }

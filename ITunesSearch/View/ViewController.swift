@@ -116,14 +116,14 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegateFlowLayout {
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let height = collectionView.frame.height / 3
+    let height = collectionView.frame.height / 3 - 10
     let width  = collectionView.frame.width / 2 - 10
     return CGSize(width: width, height: height)
   }
   
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    return 2.5
+    return 1.5
   }
     
 
