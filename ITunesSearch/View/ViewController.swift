@@ -12,12 +12,14 @@ import Kingfisher
 class ViewController: UIViewController, UICollectionViewDelegate {
   
   @IBOutlet weak var collectionView: UICollectionView!
+  @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var search: UISearchBar!
   @IBOutlet weak var commentLabel: UILabel!
   @IBOutlet weak var spinner: UIActivityIndicatorView!
   
   let model = ViewModel()
   var dataToUI = [UIModel]()
+  var searchData = [String]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -26,6 +28,16 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     search.delegate = self
     setupViewModel()
     commentLabel.text = "Введите исполнителя для поиска"
+    let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+    tap.cancelsTouchesInView = false
+    view.addGestureRecognizer(tap)
+    
+    tableView.dataSource = self
+    tableView.delegate = self
+  }
+  
+  @objc func dismissKeyboard() {
+      view.endEditing(true)
   }
   
   
@@ -50,6 +62,14 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         self.collectionView.reloadData()
       }
       self.checkComment()
+    }
+    model.didUpdateSearchArrayToUI = { [weak self] data in
+    guard let self = self else { return }
+      self.searchData = data
+      
+      DispatchQueue.main.async {
+        self.tableView.reloadData()
+      }
     }
   }
   
@@ -122,20 +142,48 @@ extension ViewController: UISearchBarDelegate {
       spinner.startAnimating()
     }
     checkComment()
+    tableView.isHidden = true
     searchBar.resignFirstResponder()
   }
   
   
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    tableView.isHidden = false
     if searchBar.text?.count == 0 {
       dataToUI = []
+      self.searchData = []
       commentLabel.isHidden = false
       commentLabel.text = "Введите исполнителя для поиска"
       DispatchQueue.main.async {
         searchBar.resignFirstResponder()
+        self.tableView.isHidden = true
+        self.tableView.reloadData()
         self.collectionView.reloadData()
       }
+    } else if searchBar.text!.count >= 3 {
+      model.search(searchBar.text!)
     }
+  }
+  
+}
+
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return searchData.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath) as! SearchCell
+    cell.label.text = searchData[indexPath.row]
+    return cell
+  }
+  
+   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    print("did select")
+    let text = searchData[indexPath.row]
+    tableView.isHidden = true
+    print(text)
+    model.request(with: text)
   }
   
 }

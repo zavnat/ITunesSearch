@@ -19,6 +19,12 @@ class ViewModel {
     }
   }
   
+  var didUpdateSearchArrayToUI: (([String]) -> Void)?
+  var searchArray: [String]? {
+  didSet {
+    didUpdateSearchArrayToUI?(searchArray!)
+  }
+  }
   
   func request(with text: String) {
     repository.request(text){ [weak self] (items, text) in
@@ -35,4 +41,18 @@ class ViewModel {
     }
   }
   
+  
+  
+  func search(_ text: String){
+    repository.searchData(text) {[weak self] (items) in
+      guard let self = self else { return }
+      var resultArray = [String]()
+      for item in 0 ..< items.count {
+        let artistName = items[item].artistName
+        if !resultArray.contains(artistName) {
+          resultArray.append( artistName) }
+      }
+      self.searchArray = resultArray
+    }
+  }
 }

@@ -22,7 +22,7 @@ class DetailViewController: UIViewController {
   let model = DetailViewModel()
   var data: DetailUIModel?
   var id: Int?
-  var isSongPlaying = false
+  var playingMusic: IndexPath?
   var player = AVPlayer()
   
   override func viewDidLoad() {
@@ -84,10 +84,12 @@ extension DetailViewController: UITableViewDataSource {
       let cell = tableView.dequeueReusableCell(withIdentifier: "song", for: indexPath) as! DetailSongCell
       cell.cellDelegate = self
       cell.songName.text = data?.songsList[indexPath.row].name
-      if !isSongPlaying {
-        cell.playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
-      } else {
-        cell.playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+      if let item = data {
+        if !item.songsList[indexPath.row].isSongPlaying {
+          cell.playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        } else {
+          cell.playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+        }
       }
       return cell
     }
@@ -100,30 +102,45 @@ extension DetailViewController: SongCellDelegate {
   
   func buttonPressed(cell: UITableViewCell) {
     guard let indexPath = tableView.indexPath(for: cell) else {return}
+    guard let item = data?.songsList[indexPath.row].song else {return}
     
-    if isSongPlaying {
+    if  indexPath == playingMusic {
       stopSound()
+      data?.songsList[indexPath.row].isSongPlaying = false
+      tableView.reloadRows(at: [indexPath], with: .none)
+      playingMusic = nil
+    } else if indexPath != playingMusic && playingMusic != nil {
+      stopSound()
+      if let music = playingMusic {
+        data?.songsList[music.row].isSongPlaying = false
+        data?.songsList[indexPath.row].isSongPlaying = true
+        playSound(item, indexPath)
+        playingMusic = indexPath
+        tableView.reloadData()
+      } else {
+        print("not music")
+      }
     } else {
-      guard let item = data?.songsList[indexPath.row].song else {return}
-      playSound(item)
+      playSound(item, indexPath)
+      data?.songsList[indexPath.row].isSongPlaying = true
+      playingMusic = indexPath
+      tableView.reloadRows(at: [indexPath], with: .none)
+      tableView.reloadData()
     }
-    tableView.reloadRows(at: [indexPath], with: .none)
   }
   
   
-  func playSound(_ string: String){
+  func playSound(_ string: String, _ indexPath: IndexPath){
     player.pause()
     let url  = URL(string: string)
     let playerItem: AVPlayerItem = AVPlayerItem(url: url!)
     player = AVPlayer(playerItem: playerItem)
     player.play()
-    isSongPlaying = true
   }
   
   
   func stopSound() {
     player.pause()
-    isSongPlaying = false
   }
   
 }

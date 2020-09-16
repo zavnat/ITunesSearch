@@ -17,6 +17,7 @@
 		8410EA66250D5F800013C366 /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA65250D5F800013C366 /* DetailModel.swift */; };
 		8410EA6C250FB2940013C366 /* DetailAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA6B250FB2940013C366 /* DetailAlbumCell.swift */; };
 		8410EA6E250FB6320013C366 /* DetailSongCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA6D250FB6320013C366 /* DetailSongCell.swift */; };
+		8410EA902511458F0013C366 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410EA8F2511458E0013C366 /* SearchCell.swift */; };
 		847E1B3B250BC14800E35801 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E1B3A250BC14800E35801 /* AppDelegate.swift */; };
 		847E1B3D250BC14800E35801 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E1B3C250BC14800E35801 /* SceneDelegate.swift */; };
 		847E1B3F250BC14800E35801 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847E1B3E250BC14800E35801 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 		8410EA65250D5F800013C366 /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		8410EA6B250FB2940013C366 /* DetailAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAlbumCell.swift; sourceTree = "<group>"; };
 		8410EA6D250FB6320013C366 /* DetailSongCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DetailSongCell.swift; path = ITunesSearch/DetailSongCell.swift; sourceTree = SOURCE_ROOT; };
+		8410EA8F2511458E0013C366 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
 		847E1B37250BC14800E35801 /* ITunesSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ITunesSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847E1B3A250BC14800E35801 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		847E1B3C250BC14800E35801 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				8410EA59250BC7E10013C366 /* CollectionCell.swift */,
 				8410EA6B250FB2940013C366 /* DetailAlbumCell.swift */,
 				8410EA6D250FB6320013C366 /* DetailSongCell.swift */,
+				8410EA8F2511458E0013C366 /* SearchCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8410EA902511458F0013C366 /* SearchCell.swift in Sources */,
 				8410EA60250BF23A0013C366 /* Model.swift in Sources */,
 				8410EA6E250FB6320013C366 /* DetailSongCell.swift in Sources */,
 				8410EA5C250BC9290013C366 /* ViewModel.swift in Sources */,

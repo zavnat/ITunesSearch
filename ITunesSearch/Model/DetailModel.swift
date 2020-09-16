@@ -72,6 +72,7 @@ struct DetailUIModel {
 struct Song {
   var name: String
   var song: String
+  var isSongPlaying = false
 }
 
 extension DetailUIModel {
