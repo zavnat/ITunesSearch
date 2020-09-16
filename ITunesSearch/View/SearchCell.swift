@@ -11,5 +11,4 @@ import UIKit
 class SearchCell: UITableViewCell {
 
   @IBOutlet weak var label: UILabel!
-  
 }

@@ -21,34 +21,43 @@ class ViewController: UIViewController, UICollectionViewDelegate {
   var dataToUI = [UIModel]()
   var searchData = [String]()
   
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    collectionView.dataSource = self
-    collectionView.delegate = self
-    search.delegate = self
+    startSettings()
     setupViewModel()
-    commentLabel.text = "Введите исполнителя для поиска"
-    let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-    tap.cancelsTouchesInView = false
-    view.addGestureRecognizer(tap)
-    
-    tableView.dataSource = self
-    tableView.delegate = self
-  }
-  
-  @objc func dismissKeyboard() {
-      view.endEditing(true)
   }
   
   
   override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
-      navigationController?.setNavigationBarHidden(true, animated: animated)
+    super.viewWillAppear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: animated)
   }
-
+  
+  
   override func viewWillDisappear(_ animated: Bool) {
-      super.viewWillDisappear(animated)
-      navigationController?.setNavigationBarHidden(false, animated: animated)
+    super.viewWillDisappear(animated)
+    navigationController?.setNavigationBarHidden(false, animated: animated)
+  }
+  
+  
+  @objc func dismissKeyboard() {
+    view.endEditing(true)
+  }
+  
+  
+  func startSettings (){
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    tableView.dataSource = self
+    tableView.delegate = self
+    search.delegate = self
+    
+    let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+    tap.cancelsTouchesInView = false
+    view.addGestureRecognizer(tap)
+    
+    commentLabel.text = "Введите исполнителя для поиска"
   }
   
   
@@ -63,8 +72,9 @@ class ViewController: UIViewController, UICollectionViewDelegate {
       }
       self.checkComment()
     }
+    
     model.didUpdateSearchArrayToUI = { [weak self] data in
-    guard let self = self else { return }
+      guard let self = self else { return }
       self.searchData = data
       
       DispatchQueue.main.async {
@@ -78,6 +88,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     if self.model.comment != nil {
       self.commentLabel.isHidden = false
       self.commentLabel.text = self.model.comment
+      self.spinner.stopAnimating()
     } else {
       self.commentLabel.isHidden = true
     }
@@ -92,6 +103,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
       }
     }
   }
+  
 }
 
 
@@ -104,17 +116,19 @@ extension ViewController: UICollectionViewDataSource {
   
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionCell
     cell.cellLabel.text = dataToUI[indexPath.row].title
     cell.cellImage.kf.setImage(with: dataToUI[indexPath.row].image)
     return cell
   }
+  
 }
 
 
 //MARK: - CollectionViewDelegateFlowLayout Methods
 extension ViewController: UICollectionViewDelegateFlowLayout {
-
+  
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     let height = collectionView.frame.height / 3 - 10
     let width  = collectionView.frame.width / 2 - 10
@@ -125,18 +139,19 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
     return 1.5
   }
-    
-
+  
+  
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 20.0
   }
 }
 
 
-//MARK: UISearchBarDelegate Methods
+//MARK: - UISearchBarDelegate Methods
 extension ViewController: UISearchBarDelegate {
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    
     if let text = searchBar.text {
       model.request(with: text)
       spinner.startAnimating()
@@ -149,28 +164,35 @@ extension ViewController: UISearchBarDelegate {
   
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     tableView.isHidden = false
+    
     if searchBar.text?.count == 0 {
       dataToUI = []
       self.searchData = []
       commentLabel.isHidden = false
       commentLabel.text = "Введите исполнителя для поиска"
+      
       DispatchQueue.main.async {
         searchBar.resignFirstResponder()
         self.tableView.isHidden = true
+        self.spinner.stopAnimating()
         self.tableView.reloadData()
         self.collectionView.reloadData()
       }
-    } else if searchBar.text!.count >= 3 {
+    } else if searchBar.text!.count >= 2 {
       model.search(searchBar.text!)
     }
   }
   
 }
 
+
+//MARK: - TableView Methods
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return searchData.count
   }
+  
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath) as! SearchCell
@@ -178,11 +200,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     return cell
   }
   
-   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    print("did select")
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let text = searchData[indexPath.row]
     tableView.isHidden = true
-    print(text)
+    checkComment()
     model.request(with: text)
   }
   

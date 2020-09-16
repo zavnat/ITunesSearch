@@ -18,17 +18,18 @@ class ViewModel {
       didUpdateDataToUI?(dataToUI!)
     }
   }
-  
   var didUpdateSearchArrayToUI: (([String]) -> Void)?
   var searchArray: [String]? {
-  didSet {
-    didUpdateSearchArrayToUI?(searchArray!)
+    didSet {
+      didUpdateSearchArrayToUI?(searchArray!)
+    }
   }
-  }
+  
   
   func request(with text: String) {
     repository.request(text){ [weak self] (items, text) in
       guard let self = self else { return }
+      
       if let resultData = items {
         self.comment = text
         let itemArray = resultData.results
@@ -42,10 +43,10 @@ class ViewModel {
   }
   
   
-  
-  func search(_ text: String){
+  func search(_ text: String) {
     repository.searchData(text) {[weak self] (items) in
       guard let self = self else { return }
+      
       var resultArray = [String]()
       for item in 0 ..< items.count {
         let artistName = items[item].artistName
@@ -55,4 +56,5 @@ class ViewModel {
       self.searchArray = resultArray
     }
   }
+  
 }

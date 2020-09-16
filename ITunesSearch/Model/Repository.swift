@@ -10,9 +10,7 @@
 import UIKit
 import Alamofire
 
-
 class Repository {
-  
   
   //MARK: - Fetching data from Network
   func request(_ text: String, completion: @escaping (Items?, String?) -> ()){
@@ -22,6 +20,7 @@ class Repository {
       "term": text,
       "entity": "album"
     ]
+    
     var comment: String?
     
     if Connectivity.isConnectedToInternet {
@@ -29,7 +28,7 @@ class Repository {
         
         if response.result.isSuccess {
           guard let data = response.data else { return }
-          
+          print(response)
           let decoder = JSONDecoder()
           do {
             let results = try decoder.decode(Items.self, from: data)
@@ -41,7 +40,6 @@ class Repository {
           } catch {
             print("Error fetch data")
           }
-          
         }
       }
     } else {
@@ -56,10 +54,9 @@ class Repository {
     let detailURL = "https://itunes.apple.com/lookup?"
     
     let parameters: [String : String] = [
-      "entity" : "song",
-      "id" : "\(id)"
+      "entity": "song",
+      "id": "\(id)"
     ]
-    
     
       Alamofire.request(detailURL, method: .get, parameters: parameters).response { (response) in
         guard let data = response.data else { return }
@@ -80,6 +77,7 @@ class Connectivity {
   class var isConnectedToInternet: Bool {
     return NetworkReachabilityManager()?.isReachable ?? false
   }
+  
 }
 
 
@@ -92,32 +90,21 @@ extension Repository {
       "entity": "musicArtist",
       "limit": "4"
     ]
-   
-      Alamofire.request(url, method: .get, parameters: parameters).responseJSON { (response) in
+    
+    Alamofire.request(url, method: .get, parameters: parameters).responseJSON { (response) in
+      if response.result.isSuccess {
         if response.result.isSuccess {
-          if response.result.isSuccess {
           guard let data = response.data else { return }
           let decoder = JSONDecoder()
-            do {
-              let results = try decoder.decode(Search.self, from: data)
-              completion(results.results)
-            } catch {
-              print("Error fetch data")
-          }
+          do {
+            let results = try decoder.decode(Search.self, from: data)
+            completion(results.results)
+          } catch {
+            print("Error fetch data")
           }
         }
-        }
+      }
+    }
   }
-}
-
-
-struct Search: Codable {
-  let resultCount: Int
-  let results: [Artist]
-}
-
-// MARK: - Result
-struct Artist: Codable {
-  let artistName: String
   
 }

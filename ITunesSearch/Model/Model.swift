@@ -19,25 +19,23 @@ struct Items: Codable {
 // MARK: - Result
 struct Result: Codable {
   let wrapperType: WrapperType
-  let artistID, collectionID: Int
-  let amgArtistID: Int?
-  let artistName, collectionName, collectionCensoredName: String
-  let artistViewURL, collectionViewURL: String
-  let artworkUrl60, artworkUrl100: String
-  let collectionPrice: Double
-  let trackCount: Int
-  let copyright: String
-  let country: String
-  let currency: String
-  let releaseDate: String
-  let primaryGenreName: String
+  let artistID, collectionID: Int?
+  let artistName, collectionName, collectionCensoredName: String?
+  let artistViewURL, collectionViewURL: String?
+  let artworkUrl60, artworkUrl100: String?
+  let collectionPrice: Double?
+  let trackCount: Int?
+  let copyright: String?
+  let country: String?
+  let currency: String?
+  let releaseDate: String?
+  let primaryGenreName: String?
   let contentAdvisoryRating: String?
   
   enum CodingKeys: String, CodingKey {
     case wrapperType
     case artistID = "artistId"
     case collectionID = "collectionId"
-    case amgArtistID = "amgArtistId"
     case artistName, collectionName, collectionCensoredName
     case artistViewURL = "artistViewUrl"
     case collectionViewURL = "collectionViewUrl"
@@ -59,10 +57,24 @@ struct UIModel {
   let image: URL?
 }
 
+
 extension UIModel {
   init(item: Result) {
-    self.id = item.collectionID
-    self.title = item.collectionName
-    self.image = URL(string: item.artworkUrl100)
+    self.id = item.collectionID ?? 0
+    self.title = item.collectionName ?? ""
+    self.image = URL(string: item.artworkUrl100!)
   }
+}
+
+
+//MARK: Search
+struct Search: Codable {
+  let resultCount: Int
+  let results: [Artist]
+}
+
+
+struct Artist: Codable {
+  let artistName: String
+  
 }

@@ -21,9 +21,11 @@ class DetailViewController: UIViewController {
   
   let model = DetailViewModel()
   var data: DetailUIModel?
+  
   var id: Int?
   var playingMusic: IndexPath?
   var player = AVPlayer()
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -35,6 +37,7 @@ class DetailViewController: UIViewController {
     }
     setupViewModel()
   }
+  
   
   override func viewWillDisappear(_ animated: Bool) {
     player.pause()
@@ -79,6 +82,7 @@ extension DetailViewController: UITableViewDataSource {
   
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
     if indexPath.section == 0 {
       let cell = tableView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! DetailAlbumCell
       cell.albumImage.kf.setImage(with: data?.image)
@@ -97,15 +101,21 @@ extension DetailViewController: UITableViewDataSource {
           cell.playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
         }
       }
-      
       return cell
     }
   }
 }
 
 
+//MARK: - TableViewDelagate Methods
 extension DetailViewController: UITableViewDelegate {
+  
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    music(for: indexPath)
+  }
+  
+  
+  func music(for indexPath: IndexPath) {
     guard let item = data?.songsList[indexPath.row].song else {return}
     
     if  indexPath == playingMusic {
@@ -130,41 +140,8 @@ extension DetailViewController: UITableViewDelegate {
       playingMusic = indexPath
       tableView.reloadRows(at: [indexPath], with: .none)
       tableView.reloadData()
+    }
   }
-}
-
-
-//MARK: - SongCellDelegate Methods
-//extension DetailViewController: SongCellDelegate {
-//  
-//  func buttonPressed(cell: UITableViewCell) {
-//    guard let indexPath = tableView.indexPath(for: cell) else {return}
-//    guard let item = data?.songsList[indexPath.row].song else {return}
-//
-//    if  indexPath == playingMusic {
-//      stopSound()
-//      data?.songsList[indexPath.row].isSongPlaying = false
-//      tableView.reloadRows(at: [indexPath], with: .none)
-//      playingMusic = nil
-//    } else if indexPath != playingMusic && playingMusic != nil {
-//      stopSound()
-//      if let music = playingMusic {
-//        data?.songsList[music.row].isSongPlaying = false
-//        data?.songsList[indexPath.row].isSongPlaying = true
-//        playSound(item, indexPath)
-//        playingMusic = indexPath
-//        tableView.reloadData()
-//      } else {
-//        print("not music")
-//      }
-//    } else {
-//      playSound(item, indexPath)
-//      data?.songsList[indexPath.row].isSongPlaying = true
-//      playingMusic = indexPath
-//      tableView.reloadRows(at: [indexPath], with: .none)
-//      tableView.reloadData()
-//    }
-//  }
   
   
   func playSound(_ string: String, _ indexPath: IndexPath){

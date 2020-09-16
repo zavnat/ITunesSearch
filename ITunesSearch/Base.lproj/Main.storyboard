@@ -38,7 +38,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Evg-UE-PcG">
-                                                    <rect key="frame" x="13" y="13" width="174" height="177.5"/>
+                                                    <rect key="frame" x="5" y="13" width="190" height="177.5"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="15"/>
@@ -69,8 +69,8 @@
                                                 <constraint firstItem="Evg-UE-PcG" firstAttribute="top" secondItem="I2V-Kc-cT7" secondAttribute="top" constant="13" id="CEG-PN-zzM"/>
                                                 <constraint firstItem="7JM-gi-bZ7" firstAttribute="leading" secondItem="I2V-Kc-cT7" secondAttribute="leading" id="MKf-Sf-09b"/>
                                                 <constraint firstAttribute="bottom" secondItem="Evg-UE-PcG" secondAttribute="bottom" constant="33.5" id="X32-E5-WYx"/>
-                                                <constraint firstAttribute="trailing" secondItem="Evg-UE-PcG" secondAttribute="trailing" constant="13" id="bcW-Lo-0ck"/>
-                                                <constraint firstItem="Evg-UE-PcG" firstAttribute="leading" secondItem="I2V-Kc-cT7" secondAttribute="leading" constant="13" id="dhF-za-q0a"/>
+                                                <constraint firstAttribute="trailing" secondItem="Evg-UE-PcG" secondAttribute="trailing" constant="5" id="bcW-Lo-0ck"/>
+                                                <constraint firstItem="Evg-UE-PcG" firstAttribute="leading" secondItem="I2V-Kc-cT7" secondAttribute="leading" constant="5" id="dhF-za-q0a"/>
                                                 <constraint firstAttribute="trailing" secondItem="7JM-gi-bZ7" secondAttribute="trailing" id="lLB-zf-gDc"/>
                                                 <constraint firstItem="7JM-gi-bZ7" firstAttribute="top" secondItem="Evg-UE-PcG" secondAttribute="bottom" id="upS-Ah-KKN"/>
                                             </constraints>

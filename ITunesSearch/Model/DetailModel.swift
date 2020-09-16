@@ -30,7 +30,7 @@ struct Detail: Codable {
   let copyright: String?
   let country: String?
   let currency: String?
-  let releaseDate: String
+  let releaseDate: String?
   let primaryGenreName: String?
   let kind: String?
   let trackID: Int?
@@ -62,14 +62,15 @@ struct Detail: Codable {
 
 // MARK: DetailUIModel
 struct DetailUIModel {
-  let title: String
-  let artistName: String
-  let albumName: String
+  let title: String?
+  let artistName: String?
+  let albumName: String?
   var image: URL? = nil
   var songsList: [Song]
   var musicType: String?
-  var date: String
+  var date: String?
 }
+
 
 struct Song {
   var name: String
@@ -77,36 +78,42 @@ struct Song {
   var isSongPlaying = false
 }
 
+
 extension DetailUIModel {
   init(_ items: DetailItems) {
     let itemArray = items.results
-    self.title = itemArray[0].collectionName ?? ""
-    self.albumName = itemArray[0].collectionName ?? ""
-    self.artistName = itemArray[0].artistName ?? ""
+    
+    self.title = itemArray[0].collectionName
+    self.albumName = itemArray[0].collectionName
+    self.artistName = itemArray[0].artistName
+    self.musicType = itemArray[0].primaryGenreName
+    
     if let url = itemArray[0].artworkUrl100 {
       self.image = URL(string: url)
     }
+    
     var songArray = [Song]()
-    for song in 1...itemArray.count - 1 {
-      if let text = itemArray[song].trackName {
-        if let song = itemArray[song].previewURL {
-          songArray.append(Song(name: text, song: song))
+    if !itemArray.isEmpty {
+      for song in 1 ..< itemArray.count {
+        if let text = itemArray[song].trackName {
+          if let song = itemArray[song].previewURL {
+            songArray.append(Song(name: text, song: song))
+          }
         }
       }
     }
     self.songsList = songArray
-    self.musicType = itemArray[0].primaryGenreName
     
     let string = itemArray[0].releaseDate
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-    if let date = formatter.date(from: string) {
-      formatter.dateFormat = "yyyy"
-      let result = formatter.string(from: date)
-      self.date = result
-    } else {
-      self.date = ""
+    if let stringDate = string {
+      if let date = formatter.date(from: stringDate) {
+        formatter.dateFormat = "yyyy"
+        let result = formatter.string(from: date)
+        self.date = result
+      }
     }
-    
   }
+  
 }

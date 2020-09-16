@@ -68,9 +68,9 @@
 				847E1B3E250BC14800E35801 /* ViewController.swift */,
 				8410EA61250D567E0013C366 /* DetailViewController.swift */,
 				8410EA59250BC7E10013C366 /* CollectionCell.swift */,
+				8410EA8F2511458E0013C366 /* SearchCell.swift */,
 				8410EA6B250FB2940013C366 /* DetailAlbumCell.swift */,
 				8410EA6D250FB6320013C366 /* DetailSongCell.swift */,
-				8410EA8F2511458E0013C366 /* SearchCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
