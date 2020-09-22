@@ -15,4 +15,12 @@ class DetailAlbumCell: UITableViewCell {
   @IBOutlet weak var albumImage: UIImageView!
   @IBOutlet weak var musicType: UILabel!
   @IBOutlet weak var date: UILabel!
+  
+  func configureCell(content: DetailUIModel?) {
+    self.albumName.text = content?.albumName
+    self.artistName.text = content?.artistName
+    self.albumImage.kf.setImage(with: content?.image)
+    self.musicType.text = content?.musicType
+    self.date.text = content?.date
+  }
 }

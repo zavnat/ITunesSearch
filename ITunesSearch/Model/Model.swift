@@ -8,15 +8,12 @@
 
 import Foundation
 
-
-// MARK: - Items
 struct Items: Codable {
   let resultCount: Int
   let results: [Result]
 }
 
 
-// MARK: - Result
 struct Result: Codable {
   let wrapperType: WrapperType
   let artistID, collectionID: Int?
@@ -67,7 +64,6 @@ extension UIModel {
 }
 
 
-//MARK: Search
 struct Search: Codable {
   let resultCount: Int
   let results: [Artist]

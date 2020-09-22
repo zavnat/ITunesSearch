@@ -8,15 +8,12 @@
 
 import Foundation
 
-
-// MARK: - DetailItems
 struct DetailItems: Codable {
   let resultCount: Int
   let results: [Detail]
 }
 
 
-// MARK: - Detail
 struct Detail: Codable {
   let wrapperType: WrapperType
   let artistID, collectionID: Int?
@@ -103,17 +100,23 @@ extension DetailUIModel {
       }
     }
     self.songsList = songArray
-    
-    let string = itemArray[0].releaseDate
+    self.date = getDate(from: itemArray[0].releaseDate)
+  }
+  
+  
+  func getDate(from string: String?) -> String? {
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
     if let stringDate = string {
       if let date = formatter.date(from: stringDate) {
         formatter.dateFormat = "yyyy"
         let result = formatter.string(from: date)
-        self.date = result
+        return result
       }
     }
+    return nil
   }
   
 }
+
+

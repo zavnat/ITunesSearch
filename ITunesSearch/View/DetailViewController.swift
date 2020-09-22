@@ -85,22 +85,11 @@ extension DetailViewController: UITableViewDataSource {
     
     if indexPath.section == 0 {
       let cell = tableView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! DetailAlbumCell
-      cell.albumImage.kf.setImage(with: data?.image)
-      cell.artistName.text = data?.artistName
-      cell.albumName.text = data?.albumName
-      cell.musicType.text = data?.musicType
-      cell.date.text = data?.date
+      cell.configureCell(content: data)
       return cell
     } else {
       let cell = tableView.dequeueReusableCell(withIdentifier: "song", for: indexPath) as! DetailSongCell
-      cell.songName.text = data?.songsList[indexPath.row].name
-      if let item = data {
-        if !item.songsList[indexPath.row].isSongPlaying {
-          cell.playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
-        } else {
-          cell.playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
-        }
-      }
+      cell.configureCell(content: data, index: indexPath)
       return cell
     }
   }
