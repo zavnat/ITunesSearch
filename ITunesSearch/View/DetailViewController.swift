@@ -110,8 +110,12 @@ extension DetailViewController: UITableViewDelegate {
     if  indexPath == playingMusic {
       stopSound()
       data?.songsList[indexPath.row].isSongPlaying = false
-      tableView.reloadRows(at: [indexPath], with: .none)
+      
+      DispatchQueue.main.async {
+        self.tableView.reloadRows(at: [indexPath], with: .none)
+      }
       playingMusic = nil
+      
     } else if indexPath != playingMusic && playingMusic != nil {
       stopSound()
       if let music = playingMusic {
@@ -119,7 +123,10 @@ extension DetailViewController: UITableViewDelegate {
         data?.songsList[indexPath.row].isSongPlaying = true
         playSound(item, indexPath)
         playingMusic = indexPath
-        tableView.reloadData()
+        
+        DispatchQueue.main.async{
+          self.tableView.reloadData()
+        }
       } else {
         print("not music")
       }
@@ -127,8 +134,11 @@ extension DetailViewController: UITableViewDelegate {
       playSound(item, indexPath)
       data?.songsList[indexPath.row].isSongPlaying = true
       playingMusic = indexPath
-      tableView.reloadRows(at: [indexPath], with: .none)
-      tableView.reloadData()
+      
+      DispatchQueue.main.async{
+        self.tableView.reloadRows(at: [indexPath], with: .none)
+        self.tableView.reloadData()
+      }
     }
   }
   
@@ -138,12 +148,26 @@ extension DetailViewController: UITableViewDelegate {
     let url  = URL(string: string)
     let playerItem: AVPlayerItem = AVPlayerItem(url: url!)
     player = AVPlayer(playerItem: playerItem)
+    NotificationCenter.default.addObserver(self, selector: #selector(self.playerDidFinishPlaying(sender:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
     player.play()
   }
-  
+
   
   func stopSound() {
     player.pause()
+  }
+  
+  
+  @objc func playerDidFinishPlaying(sender: Notification) {
+    if let index = playingMusic {
+      data?.songsList[index.row].isSongPlaying = false
+      DispatchQueue.main.async{
+//        self.tableView.reloadData()
+        self.tableView.reloadRows(at: [index], with: .none)
+      }
+      playingMusic = nil
+      NotificationCenter.default.removeObserver(self)
+    }
   }
   
 }

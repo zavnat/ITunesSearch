@@ -28,7 +28,6 @@ class Repository {
         
         if response.result.isSuccess {
           guard let data = response.data else { return }
-          print(response)
           let decoder = JSONDecoder()
           do {
             let results = try decoder.decode(Items.self, from: data)
